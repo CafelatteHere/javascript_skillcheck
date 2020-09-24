@@ -10,7 +10,7 @@ class ArticlesController < ApplicationController
   def create
     article = Article.new(article_params)
     if article.save
-      render json: {article: article} 
+      redirect_to index 
     end
   end
 
