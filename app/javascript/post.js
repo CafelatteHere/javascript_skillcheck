@@ -2,7 +2,25 @@ function post() {
   const inputForm = document.getElementById("article_text");
   const submitBtn = document.getElementById("submit_btn");
   submitBtn.addEventListener('click', (e) => {
-    console.log(inputForm.value);
+    const XHR = new XMLHttpRequest;
+    formData = new FormData(document.getElementById("new_article"));
+    XHR.open("POST", "/articles", true)
+    XHR.responseType = "json";
+    XHR.send(formData);
+    
+
+    XHR.onload = () => {
+      if (XHR.response != 200) {
+        alert(`${XHR.status}: ${XHR.statusText}`)
+      }
+      const contentsArea = document.getElementById("contents_area");
+      const item = XHR.response.article;
+      const HTML = `<div class="article">
+          ${item.text}
+        </div>`;
+      contentsArea.insertAdjacentHTML("afterbegin", HTML );
+      inputForm.value = "";
+    };
     e.preventDefault();
   });
 }
